@@ -1,0 +1,13 @@
+﻿#pragma kernel Density
+#include "Includes/Density.compute"
+// Noise settings
+uniform Texture3D tex;
+uniform SamplerState ss;
+uniform float dim;
+float4 params;
+
+[numthreads(numThreads, numThreads, numThreads)]
+void Density(int3 id : SV_DispatchThreadID)
+{
+	points[indexFromCoord(id.x, id.y, id.z)] = tex.Sample(ss, float(id) / dim);
+}
